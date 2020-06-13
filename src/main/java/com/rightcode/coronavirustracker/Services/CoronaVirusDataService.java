@@ -15,6 +15,7 @@ import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
 import java.util.ArrayList;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -48,6 +49,8 @@ public class CoronaVirusDataService {
 
             System.out.println(locationStat);
             newStats.add(locationStat);
+
+            newStats.sort(Comparator.comparing(LocationStats::getLatestTotalCases).reversed());
 
         }
         this.allStats = newStats;
