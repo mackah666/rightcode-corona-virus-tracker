@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- CSS only -->
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
+<head>
+    <meta charset="UTF-8">
+    <title>Coronavirus Tracker Application</title>
+</head>
+
+<body>
+<h2>Coronavirus Tracker Application</h2>
+<table class="table table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th>State</th>
+        <th>Country</th>
+        <th>Number of Reported Cases</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="locationStat: ${locationStats}">
+        <td th:text="${locationStat.state}"></td>
+        <td th:text="${locationStat.country}"></td>
+        <td th:text="${locationStat.latestTotalCases}"></td>
+    </tr>
+    </tbody>
+</table>
+
+</body>
+</html>
