@@ -2,6 +2,7 @@
 // Define variable
 def SHORTREV = null;
 def VERSION = null;
+def remote = [: ]
 
 pipeline {
     agent any
@@ -45,7 +46,7 @@ pipeline {
         }
         stage('ssh') {
             steps {
-                def remote = [: ]
+
                 remote.name = "k8master"
                 remote.host = "192.168.1.99"
                 remote.port = 22
