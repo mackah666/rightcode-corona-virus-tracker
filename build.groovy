@@ -44,7 +44,7 @@ pipeline {
             }
         }
         stage('ssh') {
-
+            steps{
                 def remote = [: ]
                 remote.name = "k8master"
                 remote.host = "192.168.1.99"
@@ -64,6 +64,8 @@ pipeline {
 //                    sshCommand remote: remote, command: "nohup java -jar coronavirus-tracker-0.0.1-SNAPSHOT.jar"
 //                    sshCommand remote: remote, command: "ps -fea|grep -i java"
                 }
+
+            }
 
         }
 
