@@ -22,6 +22,13 @@ pipeline {
         stage('Build') {
             steps {
 
+                // For debugging purposes, it is always useful to print info
+                // about build environment that is seen by shell during the build
+                sh 'env'
+                sh """
+                    SHORTREV=`git rev-parse --short HEAD`
+                  """
+
                 script {
                     def pom = readMavenPom file: 'pom.xml'
                     // Now you have access to raw version string in pom.version
