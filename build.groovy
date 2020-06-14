@@ -50,7 +50,7 @@ pipeline {
                 remote.host = "192.168.1.99"
                 remote.port = 22
                 remote.allowAnyHosts = true
-            steps{
+
                 withCredentials([usernamePassword(credentialsId: 'pi-server',passwordVariable: 'password', usernameVariable: 'userName')]) {
 
                     remote.user = userName
@@ -64,8 +64,6 @@ pipeline {
 //                    sshCommand remote: remote, command: "nohup java -jar coronavirus-tracker-0.0.1-SNAPSHOT.jar"
 //                    sshCommand remote: remote, command: "ps -fea|grep -i java"
                 }
-
-            }
 
         }
 
