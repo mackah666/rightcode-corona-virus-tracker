@@ -1,21 +1,27 @@
-
 pipeline {
     agent any
-    tools { 
-        maven 'Maven 3.6.3' 
+    tools {
+        maven 'Maven 3.6.3'
         //jdk 'jdk8' 
     }
     stages {
-        stage ('Initialize') {
+        stage('Initialize') {
             steps {
                 sh '''
                     echo "PATH = ${PATH}"
                     echo "M2_HOME = ${M2_HOME}"
-                ''' 
+                '''
             }
         }
-        stage ('Build') {
+
+        stage('mock Build') {
             steps {
+                echo 'This is a minimal pipeline.'
+            }
+        }
+        stage('Build') {
+            steps {
+
                 script {
                     def pom = readMavenPom file: 'pom.xml'
                     // Now you have access to raw version string in pom.version
@@ -25,16 +31,14 @@ pipeline {
                 // We never build a SNAPSHOT
                 // We explicitly set versions.
                 sh """
-                      mvn -B org.codehaus.mojo:versions-maven-plugin:2.5:set -DprocessAllModules -DnewVersion=${VERSION}  $MAVEN_OPTIONS
-                  """
+          mvn -B org.codehaus.mojo:versions-maven-plugin:2.5:set -DprocessAllModules -DnewVersion=${VERSION}  $MAVEN_OPTIONS
+      """
                 sh """
-                    mvn -B clean compile $MAVEN_OPTIONS
-                  """
+        mvn -B clean compile $MAVEN_OPTIONS
+      """
+            }
 
-//        stage ('Build') {
-//            steps {
-//                echo 'This is a minimal pipeline.'
-//            }
-//        }
+
+        }
     }
 }
