@@ -9,7 +9,7 @@ pipeline {
         //jdk 'jdk8' 
     }
     environment {
-        MAVEN_OPTS = ' -Denv.build-timestamp=${BUILD_TIMESTAMP} ...'
+        MAVEN_OPTIONS = ' -Denv.build-timestamp=${BUILD_TIMESTAMP} ...'
     }
     stages {
         stage('Initialize') {
