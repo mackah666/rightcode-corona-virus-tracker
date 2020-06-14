@@ -33,14 +33,7 @@ pipeline {
         }
         stage('Build') {
             steps {
-                 script {
-                        def pom = readMavenPom file: 'pom.xml'
-                      //Now you have access to raw version string in pom.version
-                       // Based on your versioning scheme, automatically calculate the next one
-                       VERSION = pom.version.replaceAll('SNAPSHOT', BUILD_TIMESTAMP + "." + "${SHORTREV}")
-                    }
-
-                sh 'mvn -B -DskipTests -DnewVersion=${VERSION} clean package'
+                sh 'mvn -B -DskipTests clean package'
             }
         }
         stage('Unit Tests') {
