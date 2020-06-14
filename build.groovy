@@ -1,6 +1,7 @@
 
 // Define variable
 def SHORTREV = null;
+def VERSION = null;
 
 pipeline {
     agent any
