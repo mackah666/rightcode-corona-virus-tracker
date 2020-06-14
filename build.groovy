@@ -43,6 +43,13 @@ pipeline {
                 sh 'mvn -B -DskipTests -DnewVersion=${VERSION} clean package'
             }
         }
+        stage('Unit Tests') {
+            // We have seperate stage for tests so
+            // they stand out in grouping and visualizations
+            steps {
+                sh 'mvn -B test'
+            }
+        }
 
     }
 
