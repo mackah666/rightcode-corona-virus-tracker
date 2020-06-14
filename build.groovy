@@ -24,46 +24,24 @@ pipeline {
         stage('mock Build') {
             steps {
                 echo 'This is a minimal pipeline.'
+                sh 'env'
+                sh """
+                  SHORTREV=`git rev-parse --short HEAD`
+                  """
             }
         }
-
-
         stage('Build') {
             steps {
+                 script {
+                        def pom = readMavenPom file: 'pom.xml'
+                      //Now you have access to raw version string in pom.version
+                       // Based on your versioning scheme, automatically calculate the next one
+                       VERSION = pom.version.replaceAll('SNAPSHOT', BUILD_TIMESTAMP + "." + "${SHORTREV}")
+                    }
+
                 sh 'mvn -B -DskipTests -DnewVersion=${VERSION} clean package'
             }
         }
-//        stage('Build') {
-//            steps {
-//
-//                // For debugging purposes, it is always useful to print info
-//                // about build environment that is seen by shell during the build
-//                sh 'env'
-//                sh """
-//                    SHORTREV=`git rev-parse --short HEAD`
-//                  """
-//
-//                script {
-//                    def pom = readMavenPom file: 'pom.xml'
-//                    // Now you have access to raw version string in pom.version
-//                    // Based on your versioning scheme, automatically calculate the next one
-//                    VERSION = pom.version.replaceAll('SNAPSHOT', BUILD_TIMESTAMP + "." + "${SHORTREV}")
-//                }
-//                // We never build a SNAPSHOT
-//                // We explicitly set versions.
-////                sh """
-////          mvn -B org.codehaus.mojo:versions-maven-plugin:3.6.3:set -DprocessAllModules -DnewVersion=${VERSION}  $MAVEN_OPTIONS
-////      """
-//                sh """
-//        mvn -B clean compile //$MAVEN_OPTIONS
-//      """
-//
-//
-//
-//
-//            }
-//
-//
-//        }
+
     }
 }
