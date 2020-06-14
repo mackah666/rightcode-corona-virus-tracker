@@ -45,7 +45,7 @@ pipeline {
                 // We never build a SNAPSHOT
                 // We explicitly set versions.
                 sh """
-          mvn -B org.codehaus.mojo:versions-maven-plugin:2.5:set -DprocessAllModules -DnewVersion=${VERSION}  $MAVEN_OPTIONS
+          mvn -B org.codehaus.mojo:versions-maven-plugin:3.6.3:set -DprocessAllModules -DnewVersion=${VERSION}  $MAVEN_OPTIONS
       """
                 sh """
         mvn -B clean compile $MAVEN_OPTIONS
