@@ -44,12 +44,13 @@ pipeline {
             }
         }
         stage('ssh') {
-            steps{
+
                 def remote = [: ]
                 remote.name = "k8master"
                 remote.host = "192.168.1.99"
                 remote.port = 22
                 remote.allowAnyHosts = true
+            steps{
                 withCredentials([usernamePassword(credentialsId: 'pi-server',passwordVariable: 'password', usernameVariable: 'userName')]) {
 
                     remote.user = userName
