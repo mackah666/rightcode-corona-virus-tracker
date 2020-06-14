@@ -14,11 +14,27 @@ pipeline {
                 ''' 
             }
         }
-
         stage ('Build') {
             steps {
-                echo 'This is a minimal pipeline.'
-            }
-        }
+                script {
+                    def pom = readMavenPom file: 'pom.xml'
+                    // Now you have access to raw version string in pom.version
+                    // Based on your versioning scheme, automatically calculate the next one
+                    VERSION = pom.version.replaceAll('SNAPSHOT', BUILD_TIMESTAMP + "." + SHORTREV)
+                }
+                // We never build a SNAPSHOT
+                // We explicitly set versions.
+                sh """
+                      mvn -B org.codehaus.mojo:versions-maven-plugin:2.5:set -DprocessAllModules -DnewVersion=${VERSION}  $MAVEN_OPTIONS
+                  """
+                sh """
+                    mvn -B clean compile $MAVEN_OPTIONS
+                  """
+
+//        stage ('Build') {
+//            steps {
+//                echo 'This is a minimal pipeline.'
+//            }
+//        }
     }
 }
