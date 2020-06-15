@@ -45,26 +45,35 @@ pipeline {
             }
         }
 
-        stage('ssh') {
+        stage('Main Stage') {
+            steps {
+                script {
+                    stage('nothing but display a message') {
+                        echo 'First stage'
+                    }
+                    stage('ssh') {
 
-            def remote = [: ]
-            remote.name = "k8master"
-            remote.host = "192.168.1.99"
-            remote.port = 22
-            remote.allowAnyHosts = true
-            withCredentials([usernamePassword(credentialsId: 'pi-server',passwordVariable: 'password', usernameVariable: 'userName')]) {
+                        def remote = [: ]
+                        remote.name = "k8master"
+                        remote.host = "192.168.1.99"
+                        remote.port = 22
+                        remote.allowAnyHosts = true
+                        withCredentials([usernamePassword(credentialsId: 'pi-server',passwordVariable: 'password', usernameVariable: 'userName')]) {
 
-                remote.user = userName
-                remote.password = password
+                            remote.user = userName
+                            remote.password = password
 
-                //sshGet(remote: remote, from: 'abc.sh', into: 'abc.sh', override: true)
-                sshCommand remote: remote, command: "ls -lrt"
-                sshCommand remote: remote, command: "ps -fea|grep -i java"
-//                sshCommand remote: remote, command: "pkill -9 -f coronavirus-tracker-0.0.1-SNAPSHOT.jar"
-//                sshCommand remote: remote, command: "ps -fea|grep -i java"
-                // sshCommand remote: remote, command: "nohup java -jar coronavirus-tracker-0.0.1-SNAPSHOT.jar"
-                // sshCommand remote: remote, command: "ps -fea|grep -i java"
+                            //sshGet(remote: remote, from: 'abc.sh', into: 'abc.sh', override: true)
+                            sshCommand remote: remote, command: "ls -lrt"
+                            sshCommand remote: remote, command: "ps -fea|grep -i java"
+                            sshCommand remote: remote, command: "pkill -9 -f coronavirus-tracker-0.0.1-SNAPSHOT.jar"
+                            sshCommand remote: remote, command: "ps -fea|grep -i java"
+                            // sshCommand remote: remote, command: "nohup java -jar coronavirus-tracker-0.0.1-SNAPSHOT.jar"
+                            // sshCommand remote: remote, command: "ps -fea|grep -i java"
 
+                        }
+                    }
+                }
             }
         }
 
