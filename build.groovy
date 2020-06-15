@@ -66,6 +66,7 @@ pipeline {
                             //sshGet(remote: remote, from: 'abc.sh', into: 'abc.sh', override: true)
                             sshCommand remote: remote, command: "ls -lrt"
                             sshCommand remote: remote, command: "ps -fea|grep -i java"
+                            sshCommand remote: remote, command: "pkill -f java"
                             sshPut remote: remote, from: 'target/coronavirus-tracker-0.0.1-SNAPSHOT.jar', into: '.'
                             sshCommand remote: remote, command: "java -jar coronavirus-tracker-0.0.1-SNAPSHOT.jar &"
                             sshCommand remote: remote, command: "exit"
