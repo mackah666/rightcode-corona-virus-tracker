@@ -31,10 +31,21 @@ public class LocationStats {
                 "state='" + state + '\'' +
                 ", country='" + country + '\'' +
                 ", latestTotalCases=" + latestTotalCases +
+                ", previousTotalCases=" + previousTotalCases +
                 '}';
     }
 
     private String state;
     private String country;
     private int latestTotalCases;
+
+    public int getPreviousTotalCases() {
+        return previousTotalCases;
+    }
+
+    public void setPreviousTotalCases(int previousTotalCases) {
+        this.previousTotalCases = previousTotalCases;
+    }
+
+    private int previousTotalCases;
 }
