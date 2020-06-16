@@ -66,8 +66,8 @@ pipeline {
                             sshCommand remote: remote, command: "ps -fea|grep -i java"
                             sshCommand remote: remote, command: "pkill -f java"
                             sshPut remote: remote, from: 'target/coronavirus-tracker-0.0.1-SNAPSHOT.jar', into: '.'
-                            sshCommand remote: remote, command: "nohup java -jar coronavirus-tracker-0.0.1-SNAPSHOT.jar &"
-                            sshCommand remote: remote, command: "exit"
+                            sshCommand remote: remote, command: "nohup java -jar coronavirus-tracker-0.0.1-SNAPSHOT.jar && exit"
+                            //sshCommand remote: remote, command: "exit"
                             // sshCommand remote: remote, command: "nohup java -jar coronavirus-tracker-0.0.1-SNAPSHOT.jar"
                             // sshCommand remote: remote, command: "ps -fea|grep -i java"
 
