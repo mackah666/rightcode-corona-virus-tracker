@@ -11,8 +11,12 @@
 <body>
 <h2>Coronavirus Tracker Application</h2>
 <div class="jumbotron">
+    <h3 id="date"></h3>
+    <script>document.getElementById("date").innerHTML = Date();</script>
     <h1 class="display-4" th:text="${totalReportedCases}"></h1>
     <p class="lead">Total number of cases as of today.</p>
+    <p id="date"></p>
+    <script>document.getElementById("date").innerHTML = Date();</script>
     <hr class="my-4">
     <h1 class="display-4" th:text="${previousReportCases}"></h1>
     <p class="lead">Total number of cases yesterday.</p>
