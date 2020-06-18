@@ -22,10 +22,12 @@ public class HomeController {
         int totalReportedCases = allstats.stream().mapToInt(stat -> stat.getLatestTotalCases()).sum();
         int previousReportCases = allstats.stream().mapToInt(stat -> stat.getPreviousTotalCases()).sum();
         int totalReportedDeaths = deathStats.stream().mapToInt(deathStat -> deathStat.getLatestTotalConfirmed()).sum();
+        int previousReportedDeaths = deathStats.stream().mapToInt(prevStat -> prevStat.getPreviousTotalConfirmed()).sum();
         model.addAttribute("locationStats", allstats);
         model.addAttribute("totalReportedCases", totalReportedCases);
-        model.addAttribute("previousReportCases", previousReportCases);
+        model.addAttribute("previousReportCases", totalReportedCases -previousReportCases);
         model.addAttribute("totalReportedDeaths", totalReportedDeaths);
+        model.addAttribute("totalReportedDeathToday", totalReportedDeaths - previousReportedDeaths);
         return "home";
     }
 }
