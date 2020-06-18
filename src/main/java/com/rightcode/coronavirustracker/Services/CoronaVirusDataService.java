@@ -1,6 +1,7 @@
 package com.rightcode.coronavirustracker.Services;
 
 
+import com.rightcode.coronavirustracker.models.DeathStats;
 import com.rightcode.coronavirustracker.models.LocationStats;
 import org.apache.commons.csv.CSVFormat;
 import org.apache.commons.csv.CSVRecord;
@@ -21,6 +22,8 @@ import java.util.List;
 @Service
 public class CoronaVirusDataService {
 
+    private static String VIRUS_DEATH_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_deaths_global.csv";
+
     private static String VIRUS_DATA_URL = "https://raw.githubusercontent.com/CSSEGISandData/COVID-19/master/csse_covid_19_data/csse_covid_19_time_series/time_series_covid19_confirmed_global.csv";
 
     public List<LocationStats> getAllStats() {
@@ -28,6 +31,12 @@ public class CoronaVirusDataService {
     }
 
     private List<LocationStats> allStats = new ArrayList<>();
+
+    public List<DeathStats> getDeathStatsList() {
+        return deathStatsList;
+    }
+
+    private List<DeathStats> deathStatsList = new ArrayList<>();
     @PostConstruct
     @Scheduled(cron = "0 0 */8 ? * *")
 
@@ -54,6 +63,27 @@ public class CoronaVirusDataService {
 
         }
         this.allStats = newStats;
+
+    }
+    @PostConstruct
+    @Scheduled(cron = "0 0 */8 ? * *")
+    public void getTotalNumberofConfirmedDeaths() throws IOException, InterruptedException {
+        List<DeathStats> dStats = new ArrayList<>();
+        HttpClient client = HttpClient.newHttpClient();
+        HttpRequest request = HttpRequest.newBuilder()
+                .uri(URI.create(VIRUS_DEATH_URL))
+                .build();
+        HttpResponse<String> httpResponse = client.send(request, HttpResponse.BodyHandlers.ofString());
+
+        StringReader csvBodyReader = new StringReader(httpResponse.body());
+        Iterable<CSVRecord> records = CSVFormat.DEFAULT.withFirstRecordAsHeader().parse(csvBodyReader);
+        for (CSVRecord record : records) {
+            DeathStats  deathStat = new DeathStats();
+            deathStat.setLatestTotalConfirmed(Integer.parseInt(record.get(record.size() - 1)));
+            deathStat.setPreviousTotalConfirmed(Integer.parseInt(record.get(record.size() - 2)));
+            dStats.add(deathStat);
+        }
+        this.deathStatsList = dStats;
 
     }
 }
