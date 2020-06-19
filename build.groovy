@@ -21,15 +21,15 @@ pipeline {
             }
         }
 
-        stage('mock Build') {
-            steps {
-                echo 'This is a minimal pipeline.'
-                sh 'env'
-                sh """
-                  SHORTREV=`git rev-parse --short HEAD`
-                  """
-            }
-        }
+//        stage('mock Build') {
+//            steps {
+//                echo 'This is a minimal pipeline.'
+//                sh 'env'
+//                sh """
+//                  SHORTREV=`git rev-parse --short HEAD`
+//                  """
+//            }
+//        }
         stage('Build') {
             steps {
                 sh 'mvn -B -DskipTests clean package'
@@ -43,13 +43,13 @@ pipeline {
             }
         }
 
-        stage('Main Stage') {
+        stage('Deploy to Server') {
             steps {
                 script {
-                    stage('nothing but display a message') {
-                        echo 'First stage'
-                    }
-                    stage('ssh') {
+//                    stage('nothing but display a message') {
+//                        echo 'First stage'
+//                    }
+                    //stage('ssh') {
 
                         def remote = [: ]
                         remote.name = "k8master"
@@ -70,7 +70,7 @@ pipeline {
                             //sshCommand remote: remote, command: "~."
 
                         }
-                    }
+                    //}
                 }
             }
         }
