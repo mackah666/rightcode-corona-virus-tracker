@@ -67,7 +67,7 @@ pipeline {
                             sshCommand remote: remote, command: "pkill -f java"
                             sshPut remote: remote, from: 'target/coronavirus-tracker-0.0.1-SNAPSHOT.jar', into: '.'
                             sshCommand remote: remote, command: "screen -d -m java -jar coronavirus-tracker-0.0.1-SNAPSHOT.jar &"
-                            sshCommand remote: remote, command: "~."
+                            //sshCommand remote: remote, command: "~."
 
                         }
                     }
